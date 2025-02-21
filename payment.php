@@ -1,24 +1,3 @@
-<?php
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "root"; // MAMP default password
-$database = "cafeteria";
-$port = 3306;
-
-mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-$conn = new mysqli($servername, $username, $password, $database, $port);
-
-if ($conn->connect_error) {
-    die("❌ Database Connection Failed: " . $conn->connect_error);
-}
-$conn->set_charset("utf8");
-
-// Get the items and total price passed via GET
-$items = isset($_GET['items']) ? unserialize(urldecode($_GET['items'])) : [];
-$total = isset($_GET['total']) ? $_GET['total'] : 0;
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,7 +44,10 @@ $total = isset($_GET['total']) ? $_GET['total'] : 0;
                 <input type="text" id="credit-card-cvc" placeholder="Enter CVC">
             </div>
 
-            <button class="checkout-btn" type="submit">Pay Now</button>
+            <!-- تعديل الزر ليكون رابطًا إلى صفحة track_order.php -->
+            <a href="track_order.php?total=<?= urlencode($total) ?>&items=<?= urlencode(serialize($items)) ?>" class="checkout-btn">
+                Pay Now
+            </a>
         </div>
     </div>
 
